@@ -4,7 +4,7 @@ CPPFLAGS = -I. -Iemulator
 VM_SRC = emulator/vm.c
 VM_OBJ = emulator/vm.o
 BINDIR = bin
-PROGRAMS = $(BINDIR)/arithmetic $(BINDIR)/stack_ops $(BINDIR)/loop_countdown
+PROGRAMS = $(BINDIR)/arithmetic $(BINDIR)/stack_ops $(BINDIR)/loop_countdown $(BINDIR)/jump_demo
 
 .PHONY: all clean
 
@@ -21,6 +21,9 @@ $(BINDIR)/stack_ops: programs/stack_ops.c $(VM_OBJ) | $(BINDIR)
 
 $(BINDIR)/loop_countdown: programs/loop_countdown.c $(VM_OBJ) | $(BINDIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) programs/loop_countdown.c $(VM_OBJ) -o $@
+
+$(BINDIR)/jump_demo: programs/jump_demo.c $(VM_OBJ) | $(BINDIR)
+	$(CC) $(CPPFLAGS) $(CFLAGS) programs/jump_demo.c $(VM_OBJ) -o $@
 
 $(VM_OBJ): $(VM_SRC)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $(VM_SRC) -o $@
