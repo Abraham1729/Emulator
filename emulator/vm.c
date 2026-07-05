@@ -110,18 +110,21 @@ void vm_run(VM *vm) {
                 push(vm, a + b);
                 break;
             }
+
             case OP_SUB: {
                 int32_t b = pop(vm);
                 int32_t a = pop(vm);
                 push(vm, a - b);
                 break;
             }
+
             case OP_MUL: {
                 int32_t b = pop(vm);
                 int32_t a = pop(vm);
                 push(vm, a * b);
                 break;
             }
+
             case OP_DIV: {
                 int32_t b = pop(vm);
                 int32_t a = pop(vm);
@@ -132,6 +135,7 @@ void vm_run(VM *vm) {
                 push(vm, a / b);
                 break;
             }
+
             default:
                 fprintf(stderr, "Unknown opcode: 0x%02X\n", opcode);
                 exit(EXIT_FAILURE);
