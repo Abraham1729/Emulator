@@ -46,6 +46,35 @@ void vm_run(VM *vm) {
                 break;
             }
 
+            case OP_DROP: {
+                (void)pop(vm);
+                break;
+            }
+
+            case OP_DUP: {
+                int32_t value = pop(vm);
+                push(vm, value);
+                push(vm, value);
+                break;
+            }
+
+            case OP_SWAP: {
+                int32_t b = pop(vm);
+                int32_t a = pop(vm);
+                push(vm, b);
+                push(vm, a);
+                break;
+            }
+
+            case OP_OVER: {
+                int32_t b = pop(vm);
+                int32_t a = pop(vm);
+                push(vm, a);
+                push(vm, b);
+                push(vm, a);
+                break;
+            }
+
             case OP_PRINT: {
                 int32_t value = pop(vm);
                 printf("%d\n", value);
