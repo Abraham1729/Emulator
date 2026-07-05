@@ -16,6 +16,8 @@ typedef enum {
     OP_MUL   = 0x08, /* pop 2 values from the stack, multiply them, and push the result */
     OP_DIV   = 0x09, /* pop 2 values from the stack, divide the second by the first, and push the result */
     OP_PRINT = 0x0A, /* pop 1 value from the stack and print it */
+    OP_JUMP  = 0x0B, /* jump to an absolute program counter address */
+    OP_JMPZ = 0x0C, /* jump to an absolute program counter address if the top stack value is zero */
 } OpCode;
 
 #endif

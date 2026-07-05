@@ -80,6 +80,30 @@ void vm_run(VM *vm) {
                 printf("%d\n", value);
                 break;
             }
+
+            case OP_JUMP: {
+                uint16_t target = vm->memory[vm->pc++];
+                if (target >= MEM_SIZE) {
+                    fprintf(stderr, "Jump target out of bounds\n");
+                    exit(EXIT_FAILURE);
+                }
+                vm->pc = (uint8_t)target;
+                break;
+            }
+
+            case OP_JMPZ: {
+                uint16_t target = vm->memory[vm->pc++];
+                if (target >= MEM_SIZE) {
+                    fprintf(stderr, "Jump target out of bounds\n");
+                    exit(EXIT_FAILURE);
+                }
+                int32_t value = pop(vm);
+                if (value == 0) {
+                    vm->pc = (uint8_t)target;
+                }
+                break;
+            }
+
             case OP_ADD: {
                 int32_t b = pop(vm);
                 int32_t a = pop(vm);
