@@ -77,6 +77,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // Add EOF Token at the end of the token array //
+    Token eof_token = {0};
+    eof_token.type = TOK_EOF;
+    eof_token.value = 0;
+    eof_token.text[0] = '\0';
+    tokens[token_count++] = eof_token;
+
     // Print our array of tokens to validate that the lexer is working correctly //
     for (int j = 0; j < token_count; j++) {
         print_token(&tokens[j]);
