@@ -14,7 +14,8 @@ typedef enum {
     TOK_MUL,        // multiplication operator
     TOK_DIV,        // division operator
     TOK_PRINT,      // print statement
-    TOK_HALT,       // halt statement
+    TOK_HALT,       // halt statement,
+    TOK_COMMENT,    // comment
     TOK_EOF         // end of input
 } TokenType;
 
@@ -39,6 +40,7 @@ void print_token(const Token *token) {
         case TOK_PRINT:   printf("Token: PRINT\n"); break;
         case TOK_HALT:    printf("Token: HALT\n"); break;
         case TOK_EOF:     printf("Token: EOF\n"); break;
+        case TOK_COMMENT: printf("Token: COMMENT (%s)\n", token->text); break;
     }
 }
 

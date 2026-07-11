@@ -13,6 +13,7 @@ void init_char_table(void) {
     char_table['-'] = TOK_SUB;
     char_table['*'] = TOK_MUL;
     char_table['/'] = TOK_DIV;
+    char_table['#'] = TOK_COMMENT;
     // digits & whitepsace are handled specially in the lexer, so we don't need to map them here
 }
 
