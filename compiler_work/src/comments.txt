@@ -5,4 +5,5 @@
 # Newline without anything else!
 
 * 3 (+ 5 3);
-/ (* 3 3) (+ 1 2); # Comment to EOF
+/ (* 3 3) (+ 1 2);
+p p p p p p;

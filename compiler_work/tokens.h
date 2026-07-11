@@ -28,19 +28,19 @@ typedef struct {
 
 void print_token(const Token *token) {
     switch (token->type) {
-        case TOK_UNKNOWN: printf("Token: UNKNOWN (%s)\n", token->text); break;
-        case TOK_LPAREN:  printf("Token: LPAREN\n"); break;
-        case TOK_RPAREN:  printf("Token: RPAREN\n"); break;
-        case TOK_SEMI:    printf("Token: SEMI\n"); break;
-        case TOK_NUMBER:  printf("Token: NUMBER, Value: %d\n", token->value); break;
-        case TOK_ADD:     printf("Token: ADD\n"); break;
-        case TOK_SUB:     printf("Token: SUB\n"); break;
-        case TOK_MUL:     printf("Token: MUL\n"); break;
-        case TOK_DIV:     printf("Token: DIV\n"); break;
-        case TOK_PRINT:   printf("Token: PRINT\n"); break;
-        case TOK_HALT:    printf("Token: HALT\n"); break;
-        case TOK_EOF:     printf("Token: EOF\n"); break;
-        case TOK_COMMENT: printf("Token: COMMENT (%s)\n", token->text); break;
+        case TOK_UNKNOWN: printf("UNKNOWN (%s)\n", token->text); break;
+        case TOK_LPAREN:  printf("LPAREN\n"); break;
+        case TOK_RPAREN:  printf("RPAREN\n"); break;
+        case TOK_SEMI:    printf("SEMI\n"); break;
+        case TOK_NUMBER:  printf("NUMBER, Value: %d\n", token->value); break;
+        case TOK_ADD:     printf("ADD\n"); break;
+        case TOK_SUB:     printf("SUB\n"); break;
+        case TOK_MUL:     printf("MUL\n"); break;
+        case TOK_DIV:     printf("DIV\n"); break;
+        case TOK_PRINT:   printf("PRINT\n"); break;
+        case TOK_HALT:    printf("HALT\n"); break;
+        case TOK_EOF:     printf("EOF\n"); break;
+        case TOK_COMMENT: printf("COMMENT (%s)\n", token->text); break;
     }
 }
 

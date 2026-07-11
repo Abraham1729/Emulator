@@ -14,6 +14,7 @@ void init_char_table(void) {
     char_table['*'] = TOK_MUL;
     char_table['/'] = TOK_DIV;
     char_table['#'] = TOK_COMMENT;
+    char_table['p'] = TOK_PRINT;
     // digits & whitepsace are handled specially in the lexer, so we don't need to map them here
 }
 
