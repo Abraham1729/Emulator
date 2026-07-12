@@ -16,7 +16,6 @@ typedef enum {
     TOK_PRINT,      // print statement
     TOK_HALT,       // halt statement,
     TOK_COMMENT,    // comment
-    TOK_EOF         // end of input
 } TokenType;
 
 
@@ -40,7 +39,6 @@ static inline const char *token_type_name(TokenType type) {
         [TOK_PRINT]   = "PRINT",
         [TOK_HALT]    = "HALT",
         [TOK_COMMENT] = "COMMENT",
-        [TOK_EOF]     = "EOF",
     };
 
     if (type < 0 || type > TOK_EOF) {
