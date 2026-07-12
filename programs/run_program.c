@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "vm.h"
-#include "read_source_file.h"
-#include "read_bytecode_files.h"
+#include "bytefiles.h"
 
 // I want to update this to take an arbitrary .bin file as input, read it into a uint8_t array, and then run the VM on that array. This will allow me to test the VM with different programs without having to recompile the emulator each time.
 int main(int argc, char *argv[]) {
