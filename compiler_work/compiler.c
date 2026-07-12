@@ -1,10 +1,9 @@
-#include <stdlib.h> # do need this for atoi() and malloc()
-#include <stdio.h> # do need this for printf() and fprintf()
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include "tokens.h"
 #include "tokentable.h"
-#include "read_source_file.h"
 #include "charfiles.h"
 #include "write_array_to_file.h"
 #include "write_bin_array_to_file.h"
