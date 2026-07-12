@@ -1,11 +1,5 @@
-#ifndef read_source_file_h
-#define read_source_file_h
-
 #include <stdio.h>
-/* Reads the entire contents of a source file into a heap-allocated,
- * null-terminated buffer. Caller is responsible for free()-ing the
- * returned pointer when done with it.
- */
+
 char *read_source_file(const char *path) {
     FILE *fp = fopen(path, "r");
     if (fp == NULL) {
@@ -27,12 +21,9 @@ char *read_source_file(const char *path) {
         fclose(fp);
         exit(1);
     }
-
     size_t bytes_read = fread(buffer, 1, size, fp);
     buffer[bytes_read] = '\0';  /* now safe to treat buffer as a C string */
 
     fclose(fp);
     return buffer;
 }
-
-#endif // read_source_file_h
