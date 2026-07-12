@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 char *read_source_file(const char *path) {
     FILE *fp = fopen(path, "r");
