@@ -25,6 +25,18 @@ static inline void ensure_output_dir(void) {
     }
 }
 
+static inline char *build_output_path(const char *input_path) {
+    const char *base = path_basename(input_path);
+    size_t len = strlen("output/") + strlen(base) + 1;
+    char *output_path = malloc(len);
+    if (output_path == NULL) {
+        fprintf(stderr, "out of memory allocating output path\n");
+        exit(1);
+    }
+    snprintf(output_path, len, "output/%s", base);
+    return output_path;
+}
+
 static inline void write_token_line(FILE *fp, const Token *token) {
     const char *name = token_type_name(token->type);
     switch (token->type) {
@@ -57,16 +69,5 @@ static inline void write_array_to_file(const char *path, const Token *tokens, in
     fclose(fp);
 }
 
-static inline char *build_output_path(const char *input_path) {
-    const char *base = path_basename(input_path);
-    size_t len = strlen("output/") + strlen(base) + 1;
-    char *output_path = malloc(len);
-    if (output_path == NULL) {
-        fprintf(stderr, "out of memory allocating output path\n");
-        exit(1);
-    }
-    snprintf(output_path, len, "output/%s", base);
-    return output_path;
-}
 
 #endif // WRITE_ARRAY_TO_FILE_H

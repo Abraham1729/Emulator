@@ -1,11 +1,13 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include <stdlib.h> # do need this for atoi() and malloc()
+#include <stdio.h> # do need this for printf() and fprintf()
 #include <string.h>
 #include <ctype.h>
 #include "tokens.h"
 #include "tokentable.h"
-#include "../shared/read_source_file.h"
+#include "read_source_file.h"
+#include "charfiles.h"
 #include "write_array_to_file.h"
+#include "write_bin_array_to_file.h"
 
 
 int main(int argc, char *argv[]) {
@@ -78,22 +80,15 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Add EOF Token at the end of the token array //
-    Token eof_token = {0};
-    eof_token.type = TOK_EOF;
-    eof_token.value = 0;
-    eof_token.text[0] = '\0';
-    tokens[token_count++] = eof_token;
-
     // Print our array of tokens to validate that the lexer is working correctly //
     for (int j = 0; j < token_count; j++) {
         print_token(&tokens[j]);
     }
 
     char *output_path = build_output_path(argv[1]);
-    write_array_to_file(output_path, tokens, token_count);
+    write_bin_array_to_file(output_path, tokens, token_count);
     free(output_path);
 
     free(source);  /* match the malloc — this buffer isn't needed past lexing */
     return 0;
-}
+}   
