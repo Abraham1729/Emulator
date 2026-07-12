@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 void write_bytes_to_file(const char *path, const uint8_t *bytes, size_t length) {
     FILE *fp = fopen(path, "wb");
