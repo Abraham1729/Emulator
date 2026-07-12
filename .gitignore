@@ -1,2 +1,4 @@
 bin/
 emulator/*.o
+compiler_work/*.o
+compiler_work/output/
