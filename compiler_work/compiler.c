@@ -5,6 +5,7 @@
 #include "tokens.h"
 #include "tokentable.h"
 #include "../shared/read_source_file.h"
+#include "write_array_to_file.h"
 
 
 int main(int argc, char *argv[]) {
@@ -88,6 +89,10 @@ int main(int argc, char *argv[]) {
     for (int j = 0; j < token_count; j++) {
         print_token(&tokens[j]);
     }
+
+    char *output_path = build_output_path(argv[1]);
+    write_array_to_file(output_path, tokens, token_count);
+    free(output_path);
 
     free(source);  /* match the malloc — this buffer isn't needed past lexing */
     return 0;

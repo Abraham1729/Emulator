@@ -26,21 +26,44 @@ typedef struct {
     int  value;                 // parsed integer, only meaningful if type == TOK_NUMBER
 } Token;
 
+static inline const char *token_type_name(TokenType type) {
+    static const char *names[] = {
+        [TOK_UNKNOWN] = "UNKNOWN",
+        [TOK_LPAREN]  = "LPAREN",
+        [TOK_RPAREN]  = "RPAREN",
+        [TOK_SEMI]    = "SEMI",
+        [TOK_NUMBER]  = "NUMBER",
+        [TOK_ADD]     = "ADD",
+        [TOK_SUB]     = "SUB",
+        [TOK_MUL]     = "MUL",
+        [TOK_DIV]     = "DIV",
+        [TOK_PRINT]   = "PRINT",
+        [TOK_HALT]    = "HALT",
+        [TOK_COMMENT] = "COMMENT",
+        [TOK_EOF]     = "EOF",
+    };
+
+    if (type < 0 || type > TOK_EOF) {
+        return "UNKNOWN";
+    }
+    return names[type];
+}
+
 void print_token(const Token *token) {
+    const char *name = token_type_name(token->type);
     switch (token->type) {
-        case TOK_UNKNOWN: printf("UNKNOWN (%s)\n", token->text); break;
-        case TOK_LPAREN:  printf("LPAREN\n"); break;
-        case TOK_RPAREN:  printf("RPAREN\n"); break;
-        case TOK_SEMI:    printf("SEMI\n"); break;
-        case TOK_NUMBER:  printf("NUMBER, Value: %d\n", token->value); break;
-        case TOK_ADD:     printf("ADD\n"); break;
-        case TOK_SUB:     printf("SUB\n"); break;
-        case TOK_MUL:     printf("MUL\n"); break;
-        case TOK_DIV:     printf("DIV\n"); break;
-        case TOK_PRINT:   printf("PRINT\n"); break;
-        case TOK_HALT:    printf("HALT\n"); break;
-        case TOK_EOF:     printf("EOF\n"); break;
-        case TOK_COMMENT: printf("COMMENT (%s)\n", token->text); break;
+        case TOK_UNKNOWN:
+            printf("%s (%s)\n", name, token->text);
+            break;
+        case TOK_NUMBER:
+            printf("%d\n", token->value);
+            break;
+        case TOK_COMMENT:
+            printf("%s (%s)\n", name, token->text);
+            break;
+        default:
+            printf("%s\n", name);
+            break;
     }
 }
 
