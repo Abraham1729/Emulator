@@ -1,0 +1,11 @@
++ 1 2; # This is a comment
+- 5 9; ## More comments
+
+# island #
+
+* 3 (+ 5 3); ### Master Skywalker, there are too many of them! 
+/ (* 3 3) (+ 1 2); #### This is getting out of hand
+p; # print
+p; # the
+p; # results
+p; # now
