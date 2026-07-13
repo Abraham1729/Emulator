@@ -1,5 +1,6 @@
 #ifndef tokens_h
 #define tokens_h
+#include <stdio.h>
 
 #define MAX_TOKEN_LEN 32
 
@@ -47,7 +48,7 @@ static inline const char *token_type_name(TokenType type) {
     return names[type];
 }
 
-void print_token(const Token *token) {
+static void print_token(const Token *token) {
     const char *name = token_type_name(token->type);
     switch (token->type) {
         case TOK_UNKNOWN:

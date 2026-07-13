@@ -5,6 +5,7 @@
 #include "tokens.h"
 #include "tokentable.h"
 #include "charfiles.h"
+#include "lexer.h"
 
 
 int main(int argc, char *argv[]) {
@@ -13,69 +14,19 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    // Get source file //    
     char *source = read_source_file(argv[1]);
-
-    init_char_table();
-
-    Token tokens[1024];
-    int token_count = 0;
-
     size_t source_len = strlen(source);
-    for (size_t i = 0; i < source_len; i++) {
-        char c = source[i];
+    
 
-        // Skip whitespace characters //
-        if (isspace((unsigned char)c)) {
-            continue;
-        }
-        
-        // Parse potentially multi-digit numbers //
-        else if (isdigit((unsigned char)c)) {
-            size_t start = i;
-            while (i < source_len && isdigit((unsigned char)source[i])) {
-                i++;
-            }
-            size_t length = i - start;
-            char number_str[MAX_TOKEN_LEN];
+    // Tokenize source code //
+    init_char_table();
+    Token tokens[1024];
+    int token_count = tokenize(source, source_len, tokens);
 
-            // Bad behavior on excedssively sized numerical tokens, need to come up with a better plan //
-            if (length >= MAX_TOKEN_LEN) {
-                length = MAX_TOKEN_LEN - 1;
-            }
-            memcpy(number_str, &source[start], length);
-            number_str[length] = '\0';
+    // Parse Source Code //
 
-            Token token = {0};
-            token.type = TOK_NUMBER;
-            token.value = atoi(number_str);
-            strncpy(token.text, number_str, MAX_TOKEN_LEN - 1);
-            token.text[MAX_TOKEN_LEN - 1] = '\0';
-            tokens[token_count++] = token;
-
-            i--;
-        }
-        
-        // Match remaining single-character tokens using the char_table //
-        else {
-            TokenType token_type = char_table[(unsigned char)c];
-
-            // If it's a comment, skip the rest of the line //
-            if (token_type == TOK_COMMENT) {
-                while (i < source_len && source[i] != '\n') {
-                    i++;
-                }
-                continue;  // skip adding a token for the comment itself
-            }
-
-            // All other tokens we want to save in the token array //
-            Token token = {0};
-            token.type = token_type;
-            token.value = 0;
-            token.text[0] = c;
-            token.text[1] = '\0';
-            tokens[token_count++] = token;
-        }
-    }
+    // Generate Assembly / MachineCode //
 
     // Print our array of tokens to validate that the lexer is working correctly //
     for (int j = 0; j < token_count; j++) {
