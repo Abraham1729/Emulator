@@ -1,3 +1,6 @@
+#ifndef LOOP_COUNTDOWN_H
+#define LOOP_COUNTDOWN_H
+
 #include <stdint.h>
 #include "opcodes.h"
 
@@ -19,3 +22,5 @@ static const uint8_t loop_countdown_program[] = {
     OP_JUMP, 0x02,   /* otherwise loop back to the duplicate step */
     OP_HALT          /* stop */
 };
+
+#endif // LOOP_COUNTDOWN_H

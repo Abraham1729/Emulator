@@ -1,3 +1,6 @@
+#ifndef JUMP_DEMO_H
+#define JUMP_DEMO_H
+
 #include <stdint.h>
 #include "opcodes.h"
 
@@ -14,3 +17,5 @@ static const uint8_t jump_demo_program[] = {
     OP_PRINT,        /* print the result: 5 */
     OP_JUMP, 0x04,   /* jump back to the halt instruction */
 };
+
+#endif // JUMP_DEMO_H

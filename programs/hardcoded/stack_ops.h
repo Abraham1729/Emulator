@@ -1,3 +1,6 @@
+#ifndef STACK_OPS_H
+#define STACK_OPS_H
+
 #include <stdint.h>
 #include "opcodes.h"
 
@@ -14,3 +17,5 @@ static const uint8_t stack_ops_program[] = {
     OP_PRINT,   /* pops 4, leaving [] */
     OP_HALT     /* stop */
 };
+
+#endif // STACK_OPS_H

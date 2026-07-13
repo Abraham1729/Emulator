@@ -1,3 +1,6 @@
+#ifndef ARITHMETIC_H
+#define ARITHMETIC_H
+
 #include <stdint.h>
 #include "opcodes.h"
 
@@ -14,3 +17,5 @@ static const uint8_t arithmetic_program[] = {
     OP_PRINT,    /* prints -3 */
     OP_HALT      /* stop */
 };
+
+#endif // ARITHMETIC_H
