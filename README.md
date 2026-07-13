@@ -1,36 +1,51 @@
 # Emulator
 
-A small stack-based virtual machine written in C.
+This project features a stack-based virtual machine and a compiler for a custom language.
+The compiler is still a work in progress, currently only featuring a lexer to tokenize the language --
+a parser is still needed before the src code can be translated into a custom assembly language.
+
+The virtual machine is ready to act as an emulator for my custom assembly language.
+There are currently 4 programs written in the custom assembly language which can be passed to this emulator for execution.
+The compiler and emulator are written in C. This should give my custom language / instruction set the ability to run independent of the specific hardware I choose today vs tomorrow.
+
+The long term goal would be to mature my language enough for it to be able to compile itself.
 
 ## Project structure
-- `emulator/` - VM core implementation and headers
-  - `emulator/vm.c` - VM execution loop, stack operations, and control-flow support
-  - `emulator/vm.h` - VM structure and public API
-  - `emulator/opcodes.h` - opcode definitions
-- `programs/` - example programs that load bytecode into the VM
-  - These program files in C are simply constructing an instruction sequence in memory to pass to the emulator, rather than having those instructions written out as a bytefile on disk. This is purely a conveinence of legibility for the author and shouldn't meaningfully detract from the spirit of trying to write basic programs in a custom instruction set.
-  - `programs/arithmetic.c` - arithmetic demo
-  - `programs/stack_ops.c` - stack operation demo
-  - `programs/loop_countdown.c` - countdown loop using `JMPZ`
-  - `programs/jump_demo.c` - jump demonstration
-- `Makefile` - builds every demo program in `programs/` into matching binaries in `bin/`
-- `bin/` - compiled demo binaries
-- `.gitignore` - ignores build outputs in `bin/` and object files under `emulator/`
 
-## Build
-```sh
-make all
-```
+- `emulator/` — the virtual machine
+  - `vm.c` / `vm.h` — fetch-decode-execute loop, stack, program counter
+  - `opcodes.h` — the instruction set
+- `compiler/` — lexer for source code (parser in progress)
+  - `compiler.c` — driver: reads source, tokenizes, prints the token stream
+  - `tokens.h` — token types and the `Token` struct
+  - `tokentable.h` — dispatch table mapping single characters to token types
+  - `charfiles.c/.h` — reads a source file into memory
+  - `src/program.txt` — example source file
+- `programs/` — bytecode file I/O and demo programs
+  - `bytefiles.c/.h` — raw binary read/write (`fwrite`/`fread`, no text
+    encoding — bytecode is treated as opaque bytes, not a C string, since
+    `0x00` is a legitimate opcode value)
+  - `write_program.c` — writes four hardcoded demo programs out as binaries
+  - `run_program.c` — loads an arbitrary binary file and runs it on the VM
+  - `hardcoded/*.h` — the four demo programs as raw opcode arrays
+    (`arithmetic`, `jump_demo`, `loop_countdown`, `stack_ops`)
 
-## Run
-```sh
-./bin/arithmetic
-./bin/stack_ops
-./bin/loop_countdown
-./bin/jump_demo
-```
+## Building and running
 
-## Clean
+Each subproject has its own build/run scripts:
+
+**Compiler (lexer only, for now):**
 ```sh
-make clean
+cd compiler
+./scripts/run.sh
 ```
+Builds the compiler, runs it against `src/program.txt`, and prints the
+resulting token stream.
+
+**VM + demo programs:**
+```sh
+cd programs
+./scripts/run.sh
+```
+Writes the four demo programs to `.bin` files under `apps/`, then loads and
+runs each one through the VM.
