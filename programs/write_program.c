@@ -12,19 +12,19 @@ int main(void) {
     // Jump Demo //
     size_t bytesize = sizeof(jump_demo_program[0]);
     size_t length = sizeof(jump_demo_program) / bytesize;
-    write_bytes_to_file("output/jump_demo", jump_demo_program, length);
+    write_bytes_to_file("./apps/jump_demo", jump_demo_program, length);
 
     // Arithmetic //
     length = sizeof(arithmetic_program) / bytesize;
-    write_bytes_to_file("output/program", arithmetic_program, length);
+    write_bytes_to_file("./apps/arithmetic", arithmetic_program, length);
 
     // Stack Ops //
     length = sizeof(stack_ops_program) / bytesize;
-    write_bytes_to_file("output/stack_ops", stack_ops_program, length);
+    write_bytes_to_file("./apps/stack_ops", stack_ops_program, length);
  
     // Loop Countdown //
     length = sizeof(loop_countdown_program) / bytesize;
-    write_bytes_to_file("output/loop_countdown", loop_countdown_program, length);
+    write_bytes_to_file("./apps/loop_countdown", loop_countdown_program, length);
 
     return 0;
 }

@@ -1,1 +1,0 @@
-gcc -I ./ -I ../emulator write_program.c bytefiles.c -o write_program
