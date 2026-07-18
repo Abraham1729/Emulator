@@ -62,5 +62,13 @@ int tokenize(const char *source, size_t source_len, Token *tokens) {
             tokens[token_count++] = token;
         }
     }
+
+    // Add EOF after processing file //
+    Token token = {
+        .type = TOK_EOF,
+        .text='\0',
+        .value = 0,
+    };
+    tokens[token_count++] = token;
     return token_count;
 }
