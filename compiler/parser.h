@@ -32,4 +32,19 @@ ASTNode* parse_argument(Token* tokens, int* position);
 // returns 0 otherwise
 int is_statement_starter(Token token);
 
+// Printer for ASTNode Type to confirm parser works as intended //
+static void print_astnode(const ASTNode *node) {
+    print_astnode_helper(node, 0);
+}
+
+static void print_astnode_helper(const ASTNode *node, int indent_count) {
+    printf(('\t' * indent_count) + "Node type:\t" + node->NodeType);
+    printf(('\t' * indent_count) + "Node value:\t" + node->value);
+    printf(('\t' * indent_count) + "Node childcount:\t" + node->num_children);
+    for (int i = 0; i < node->num_children; i++) {
+        printf('----------');
+        print_astnode_helper(node->children[i], indent_count + 1);
+    }
+}
+
 #endif // PARSER_H
