@@ -1,0 +1,103 @@
+#include "tokens.h"
+#include "parser.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+ASTNode** parse_program(Token* tokens) {
+    // Initialization //
+    int position = 0;
+    int num_statements = 0;
+    ASTNode **nodes = malloc(sizeof(ASTNode) * MAX_STATEMENTS);
+    if (nodes == NULL) {
+        fprintf(stderr, "Failed to allocate ASTNode array in parse_program");
+        exit(1);
+    }
+
+    while (tokens[position].type != TOK_EOF) {
+        nodes[num_statements++] = parse_statement(tokens, &position);
+    }
+
+    return nodes;
+}
+
+ASTNode* parse_statement(Token* tokens, int* position) {
+    // Expect first token to be an operation, we should error if it isn't //
+    Token operation = tokens[*position++];
+
+    // Realizing that I need to classify tokens:
+    // "Operations" are ADD/SUB/MUL/DIV/PRINT, everything else is invalid
+    if (!is_statement_starter(operation)) {
+        fprintf(stderr, "Error, parse_statement expected operation token, got %d", operation.type);
+    } else {
+        // make AST node //
+        ASTNode *node = malloc(sizeof(ASTNode));
+        if (node == NULL) {
+            fprintf(stderr, "Unable to allocate ASTNode.\n");
+            exit(1);
+        }
+        node->NodeType = operation.type;
+
+        // Parse args until we hit a semicolon //
+        while (tokens[*position].type != TOK_SEMI) { // should I include EOF guard?
+            node->children[node->num_children++] = parse_argument(tokens, position);
+        }
+        
+        // hit Semi, return node //
+        return node;
+    }
+}
+
+ASTNode* parse_argument(Token* tokens, int* position) {
+    Token current = tokens[*position++];
+    if (!(
+        current.type != TOK_LPAREN ||
+        current.type != TOK_NUMBER
+    )) {
+        fprintf(stderr, "Error: parse_argument expected number or open paren token, got %d\n", current.type);
+        exit(1);
+    } else {
+        ASTNode *node = malloc(sizeof(ASTNode));
+        if (node == NULL) {
+            fprintf(stderr, "Unable to allocate ASTNode.\n");
+            exit(1);
+        }
+        node->num_children = 0;
+        node->value = current.value;
+        
+        // Base case: Number -- no children to process, return node //
+        if (current.type == TOK_NUMBER) {
+            node->NodeType = current.type;
+            // Do I need to 0-initialize my children ? //
+            return node;
+            
+        } else { // Recursive case: TOK_LPAREN
+            // Now need to check to see if it's a legitimate operation, same set as parse_statement //
+            current = tokens[*position++];
+            if (!is_statement_starter(current)) {
+                fprintf(stderr, "Error, parse_argument expected operation token, got %d", current.type);
+                exit(1);
+            } else {
+                // Save off the operation info into node //
+                node->NodeType = current.type;
+
+                // Get any arguments for the current operation //
+                while(tokens[*position].type != TOK_RPAREN) {
+                    node->children[node->num_children++] = parse_argument(tokens, position);
+                }
+
+                // At this point, we've pulled all children / args for this operation node //
+                return node;
+            }
+        }
+    }
+}
+
+int is_statement_starter(Token token) {
+    return (
+        token.type == TOK_ADD ||
+        token.type == TOK_SUB ||
+        token.type == TOK_MUL ||
+        token.type == TOK_DIV ||
+        token.type == TOK_PRINT
+    );
+}
