@@ -44,7 +44,7 @@ static inline const char *token_type_name(TokenType type) {
         [TOK_EOF]     = "EOF",
     };
 
-    if (type < 0 || type > TOK_COMMENT) {
+    if (type < 0 || type > TOK_EOF) {
         return "UNKNOWN";
     }
     return names[type];
