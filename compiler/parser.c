@@ -3,31 +3,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-ASTNode** parse_program(Token* tokens) {
+int parse_program(Token* tokens, ASTNode** nodes) {
     // Initialization //
     int position = 0;
     int num_statements = 0;
-    ASTNode **nodes = malloc(sizeof(ASTNode) * MAX_STATEMENTS);
-    if (nodes == NULL) {
-        fprintf(stderr, "Failed to allocate ASTNode array in parse_program");
-        exit(1);
-    }
 
     while (tokens[position].type != TOK_EOF) {
         nodes[num_statements++] = parse_statement(tokens, &position);
     }
 
-    return nodes;
+    return num_statements;
 }
 
 ASTNode* parse_statement(Token* tokens, int* position) {
     // Expect first token to be an operation, we should error if it isn't //
-    Token operation = tokens[*position++];
+    Token operation = tokens[(*position)++];
 
     // Realizing that I need to classify tokens:
     // "Operations" are ADD/SUB/MUL/DIV/PRINT, everything else is invalid
     if (!is_statement_starter(operation)) {
         fprintf(stderr, "Error, parse_statement expected operation token, got %d", operation.type);
+        exit(1);
     } else {
         // make AST node //
         ASTNode *node = malloc(sizeof(ASTNode));
@@ -36,6 +32,7 @@ ASTNode* parse_statement(Token* tokens, int* position) {
             exit(1);
         }
         node->NodeType = operation.type;
+        printf("parse_statement: position %d operation type %d.\n", *position - 1, node->NodeType);
 
         // Parse args until we hit a semicolon //
         while (tokens[*position].type != TOK_SEMI) { // should I include EOF guard?
@@ -48,14 +45,15 @@ ASTNode* parse_statement(Token* tokens, int* position) {
 }
 
 ASTNode* parse_argument(Token* tokens, int* position) {
-    Token current = tokens[*position++];
+    Token current = tokens[(*position)++];
     if (!(
         current.type != TOK_LPAREN ||
         current.type != TOK_NUMBER
     )) {
-        fprintf(stderr, "Error: parse_argument expected number or open paren token, got %d\n", current.type);
+        fprintf(stderr, "Error: parse_argument expected number or open paren token, got %d.\n", current.type);
         exit(1);
     } else {
+        printf("Parsing on position %d token type %d\n", *position - 1, (int)(current.type));
         ASTNode *node = malloc(sizeof(ASTNode));
         if (node == NULL) {
             fprintf(stderr, "Unable to allocate ASTNode.\n");
@@ -63,18 +61,23 @@ ASTNode* parse_argument(Token* tokens, int* position) {
         }
         node->num_children = 0;
         node->value = current.value;
+
+        // printf("successful assignment of base values to node\n");
         
         // Base case: Number -- no children to process, return node //
         if (current.type == TOK_NUMBER) {
+            printf("Base case: Number\n");
             node->NodeType = current.type;
+            printf("wrote to node\n");
             // Do I need to 0-initialize my children ? //
             return node;
             
         } else { // Recursive case: TOK_LPAREN
             // Now need to check to see if it's a legitimate operation, same set as parse_statement //
-            current = tokens[*position++];
+            printf("Recursive case: Lparen\n");
+            current = tokens[(*position)++];
             if (!is_statement_starter(current)) {
-                fprintf(stderr, "Error, parse_argument expected operation token, got %d", current.type);
+                fprintf(stderr, "Error: parse_argument expected operation token, got %d.\n", current.type);
                 exit(1);
             } else {
                 // Save off the operation info into node //
