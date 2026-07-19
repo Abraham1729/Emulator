@@ -10,6 +10,9 @@ The compiler and emulator are written in C. This should give my custom language 
 
 The long term goal would be to mature my language enough for it to be able to compile itself.
 
+![End to end flow from src file to execution](end-to-end.png "End to End Flow")
+
+
 ## Project structure
 
 - `emulator/` — the virtual machine
