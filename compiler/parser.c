@@ -37,6 +37,7 @@ ASTNode* parse_statement(Token* tokens, int* position) {
         // Parse args until we hit a semicolon //
         while (tokens[*position].type != TOK_SEMI) { // should I include EOF guard?
             node->children[node->num_children++] = parse_argument(tokens, position);
+            printf("Finished parsing arg\n");
         }
         
         // hit Semi, return node //

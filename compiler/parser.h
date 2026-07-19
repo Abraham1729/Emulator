@@ -12,7 +12,7 @@ struct ASTNode {
     TokenType NodeType;
     int value;
     int num_children;
-    ASTNode **children;
+    struct ASTNode **children;
 };
 
 
