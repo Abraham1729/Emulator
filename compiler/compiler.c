@@ -25,10 +25,11 @@ int main(int argc, char *argv[]) {
     Token tokens[1024];
     int token_count = tokenize(source, source_len, tokens);
 
-    // Print our array of tokens to validate that the lexer is working correctly //
-    for (int j = 0; j < token_count; j++) {
-        print_token(&tokens[j]);
-    }
+    // Validating tokenization //
+    printf("Validating Token Stream:\n");
+    for (int i = 0; i < token_count; i++) {
+        print_token(&tokens[i]);
+    } printf("\n");
 
     // Parse code //
     ASTNode **nodes = malloc(sizeof(ASTNode) * MAX_STATEMENTS);
@@ -36,14 +37,13 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Failed to allocate ASTNode array in parse_program");
         exit(1);
     }
-    printf("Parsing tokens\n");
     int statement_count = parse_program(tokens, nodes);
 
     // Print results to confirm parsing worked out well //
     printf("Validating ASTNode array:\n");
     for (int i = 0; i < statement_count; i++) {
         print_astnode(nodes[i]);
-    }
+    } printf("\n");
 
     free(source);  /* match the malloc — this buffer isn't needed past lexing */
     return 0;
