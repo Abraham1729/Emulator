@@ -2,7 +2,7 @@
 #define PARSER_H
 #include "tokens.h"
 
-// #define MAX_CHILDREN 2
+#define MAX_CHILDREN 2
 #define MAX_STATEMENTS 32
 
 // Node structure to contain a statement //

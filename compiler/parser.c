@@ -22,7 +22,7 @@ ASTNode* parse_statement(Token* tokens, int* position) {
     // Realizing that I need to classify tokens:
     // "Operations" are ADD/SUB/MUL/DIV/PRINT, everything else is invalid
     if (!is_statement_starter(operation)) {
-        fprintf(stderr, "Error, parse_statement expected operation token, got %d", operation.type);
+        fprintf(stderr, "Error, parse_statement expected operation token, got %d.\n", operation.type);
         exit(1);
     } else {
         // make AST node //
@@ -31,7 +31,18 @@ ASTNode* parse_statement(Token* tokens, int* position) {
             fprintf(stderr, "Unable to allocate ASTNode.\n");
             exit(1);
         }
+        
+        // Make ASTNode children array //
+        ASTNode **children = malloc(sizeof(ASTNode*) * MAX_CHILDREN);
+        if (children == NULL) {
+            fprintf(stderr, "Unable to allocate ASTNode children array.\n");
+        }
+
+        // initialize ASTNode //
         node->NodeType = operation.type;
+        node->value = operation.value;
+        node->num_children = 0;
+        node->children = children;
         printf("parse_statement: position %d operation type %d.\n", *position - 1, node->NodeType);
 
         // Parse args until we hit a semicolon //
@@ -48,8 +59,8 @@ ASTNode* parse_statement(Token* tokens, int* position) {
 ASTNode* parse_argument(Token* tokens, int* position) {
     Token current = tokens[(*position)++];
     if (!(
-        current.type != TOK_LPAREN ||
-        current.type != TOK_NUMBER
+        current.type == TOK_LPAREN ||
+        current.type == TOK_NUMBER
     )) {
         fprintf(stderr, "Error: parse_argument expected number or open paren token, got %d.\n", current.type);
         exit(1);
