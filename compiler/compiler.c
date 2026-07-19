@@ -7,6 +7,7 @@
 #include "charfiles.h"
 #include "lexer.h"
 #include "parser.h"
+#include "codegen.h"
 
 
 int main(int argc, char *argv[]) {
@@ -44,6 +45,13 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < statement_count; i++) {
         print_astnode(nodes[i]);
     } printf("\n");
+
+    // Translate to OPCODES //
+    int instruction_count = 0;
+    uint8_t *instructions = translate_statements(nodes, statement_count, &instruction_count);
+    for (int i = 0; i < instruction_count; i++) {
+        printf("Operation %d:\t%d\n", i, instructions[i]);
+    }
 
     free(source);  /* match the malloc — this buffer isn't needed past lexing */
     return 0;

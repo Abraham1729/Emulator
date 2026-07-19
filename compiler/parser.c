@@ -45,6 +45,7 @@ ASTNode* parse_statement(Token* tokens, int* position) {
         node->children = children;
 
         // Parse args until we hit a semicolon //
+        // TODO: This is guarded by EOF token but doesn't gracefully handle it
         while (tokens[*position].type != TOK_SEMI) { // should I include EOF guard?
             node->children[node->num_children++] = parse_argument(tokens, position);
         }
