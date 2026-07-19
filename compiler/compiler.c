@@ -20,18 +20,11 @@ int main(int argc, char *argv[]) {
     // Get source file //    
     char *source = read_source_file(argv[1]);
     size_t source_len = strlen(source);
-    
 
     // Tokenize source code //
     init_char_table();
     Token tokens[1024];
     int token_count = tokenize(source, source_len, tokens);
-
-    // Validating tokenization //
-    printf("Validating Token Stream:\n");
-    for (int i = 0; i < token_count; i++) {
-        print_token(&tokens[i]);
-    } printf("\n");
 
     // Parse code //
     ASTNode **nodes = malloc(sizeof(ASTNode) * MAX_STATEMENTS);
@@ -41,18 +34,9 @@ int main(int argc, char *argv[]) {
     }
     int statement_count = parse_program(tokens, nodes);
 
-    // Print results to confirm parsing worked out well //
-    printf("Validating ASTNode array:\n");
-    for (int i = 0; i < statement_count; i++) {
-        print_astnode(nodes[i]);
-    } printf("\n");
-
     // Translate to OPCODES //
     int instruction_count = 0;
     uint8_t *instructions = translate_statements(nodes, statement_count, &instruction_count);
-    for (int i = 0; i < instruction_count; i++) {
-        printf("Operation %d:\t%d\n", i+1, instructions[i]);
-    }
 
     // Write "compiled" code to file //
     write_bytes_to_file("./apps/output.bin", instructions, instruction_count);

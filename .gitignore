@@ -1,6 +1,3 @@
-bin/
-emulator/*.o
-compiler_work/*.o
-compiler_work/output/
+compiler/apps/
 programs/bin/
 programs/apps/
