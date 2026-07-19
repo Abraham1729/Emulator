@@ -12,9 +12,6 @@ uint8_t* translate_statements(ASTNode **statements, int num_statements, int *ins
 
 void translate_node(ASTNode *node, uint8_t *instructions, int *instruction_count);
 
-// 1 to write the translated results to file
-void write_to_file(uint8_t* instructions);
-
 // We need to make a similar lookup table for tokentype -> opcode since we don't have dicts //
 // TODO: review MAX_ENUM_VALUE enum as an option for removing this hardcoded dep //
 extern OpCode TokenTypeTable[TTT_SIZE];  /* maps TokenType enum to OpCodes */

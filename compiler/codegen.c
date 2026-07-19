@@ -91,6 +91,3 @@ void translate_tokentype_to_opcode(ASTNode *node, uint8_t *instructions, int *in
             break;        
     }
 }
-
-// Given array of uint8_t opcodes, write to file in bin?
-// void write_to_file(uint8_t* instructions);

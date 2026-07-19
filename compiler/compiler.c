@@ -8,6 +8,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "codegen.h"
+#include "bytefiles.h"
 
 
 int main(int argc, char *argv[]) {
@@ -50,8 +51,14 @@ int main(int argc, char *argv[]) {
     int instruction_count = 0;
     uint8_t *instructions = translate_statements(nodes, statement_count, &instruction_count);
     for (int i = 0; i < instruction_count; i++) {
-        printf("Operation %d:\t%d\n", i, instructions[i]);
+        printf("Operation %d:\t%d\n", i+1, instructions[i]);
     }
+
+    // Write "compiled" code to file //
+    write_bytes_to_file("./apps/output.bin", instructions, instruction_count);
+
+    // TODO: You need to loop over all your dynamically allocated objects and free them at this point //
+    // This can happen after the file save to be honest... //
 
     free(source);  /* match the malloc — this buffer isn't needed past lexing */
     return 0;
